@@ -75,12 +75,14 @@ addons:
       - "screenshot-03.png"
 
   # TMDb Helper and Arctic Fuse 3 are both published through jurialmunkey's
-  # own Kodi repository, which already has a standard per-Kodi-version
-  # datadir layout -- the "omega" tier below covers Kodi 20.9.1+ (Nexus'
-  # successors, i.e. current Kodi as of 2026). If you're on an older Kodi
-  # version, swap these two URLs for the matching tier (see
-  # jurialmunkey/repository.jurialmunkey's addon.xml for the other tiers:
-  # leia, matrix, nexusrepo).
+  # own Kodi repository, which has a per-Kodi-version datadir layout. Its
+  # "omega" tier is declared open-ended (minversion 20.9.1, no maxversion
+  # cap) in repository.jurialmunkey's own addon.xml -- there is no separate
+  # "piers" tier there yet, so "omega" is still the correct/current tier
+  # for Kodi 22 Piers too. If jurialmunkey ever adds a distinct piers tier
+  # with a maxversion cap on omega, switch these two URLs to match (check
+  # jurialmunkey/repository.jurialmunkey's addon.xml for the current tier
+  # list: leia, matrix, nexusrepo, omega, ...).
   - id: plugin.video.themoviedb.helper
     type: kodi_repo
     repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
@@ -96,7 +98,14 @@ addons:
   # it here is redundant for that reason, kept only for "everything in one
   # place" convenience. Remove this entry if you'd rather just use Kodi's
   # built-in repo for it.
+  #
+  # Unlike jurialmunkey's repo, the OFFICIAL Kodi mirror maintains genuinely
+  # separate per-major-version folders (leia/matrix/nexus/omega/piers/...),
+  # each with its own independently-updated addon set -- there is no
+  # open-ended "current" tier here, so this must be bumped to match
+  # whatever Kodi major version you're actually targeting. Set to "piers"
+  # for Kodi 22.
   - id: script.trakt
     type: kodi_repo
-    repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
-    repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
+    repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
+    repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
