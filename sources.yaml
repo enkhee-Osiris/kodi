@@ -1,11 +1,31 @@
 # sources.yaml
 # ---------------------------------------------------------------------------
-# Declares every THIRD-PARTY addon mirrored into zips/ by tools/build_repo.py.
+# Declares every THIRD-PARTY addon mirrored into zips/ by tools/build_repo.py,
+# grouped into Kodi-version TIERS. Each tier gets its own addons.xml under
+# zips/tiers/<tier-name>/, matching a <dir minversion=... maxversion=...>
+# block in repository.osiris/addon.xml -- Kodi picks whichever tier's block
+# covers its own running version. This mirrors how third-party multi-version
+# Kodi repos (e.g. jurialmunkey/repository.jurialmunkey) work: the SAME
+# installed repository.osiris zip has to serve every Kodi version a user
+# might install it on, unlike Kodi's own built-in official repo (which ships
+# a version-matched addon.xml baked into each Kodi release itself and never
+# needs this).
 #
-# Do NOT add an entry for repository.osiris here -- it is always built
-# automatically from repository.osiris/addon.xml regardless of this file.
+# Adding a new tier requires updating BOTH this file AND
+# repository.osiris/addon.xml's <dir> blocks (bump its version too, so
+# already-installed clients pick up the new tier definition). Tier changes
+# are rare -- roughly once per new Kodi major version.
 #
-# Supported "type" values:
+# The physical zip files themselves are NOT duplicated per tier: they live
+# once in a shared zips/<id>/ store, keyed by exact version. If two tiers
+# resolve an addon to the identical version (the common case when an addon
+# isn't split per Kodi version upstream), only one copy is kept on disk and
+# it's only fetched once per build run.
+#
+# Do NOT add an entry for repository.osiris anywhere here -- it is always
+# built automatically (once, non-tiered) from repository.osiris/addon.xml.
+#
+# Supported "type" values (identical across tiers):
 #
 #   kodi_repo
 #     Upstream is itself a Kodi repository (has its own addons.xml + a
@@ -44,68 +64,118 @@
 #       url: "https://example.invalid/releases/download/v1.2.3/some.addon.id-1.2.3.zip"
 #
 # Add further entries below by copying one of the three shapes above and
-# filling in a real id + source. Removing an entry causes the next build to
-# prune that addon's zip automatically.
+# filling in a real id + source. Removing an entry (from every tier that
+# lists it) causes the next build to prune that addon's zip automatically.
 # ---------------------------------------------------------------------------
 
-addons:
-  # a4kSubtitles -- multi-source subtitle downloader. Its addon source lives
-  # at the repo root (no separate per-addon folder), alongside dev/CI/test
-  # files we don't want in the shipped zip, hence the exclude list.
-  - id: service.subtitles.a4ksubtitles
-    type: github
-    github_repo: "a4k-openproject/a4kSubtitles"
-    branch: "master"
-    subdir: ""
-    exclude:
-      - ".github"
-      - ".githooks"
-      - ".vscode"
-      - "tests"
-      - "scripts"
-      - "packages"
-      - ".coveragerc"
-      - ".flake8"
-      - ".gitattributes"
-      - ".gitignore"
-      - "CHANGELOG.md"
-      - "requirements.txt"
-      - "screenshot-01.png"
-      - "screenshot-02.png"
-      - "screenshot-03.png"
+tiers:
+  # Kodi 20.9.1 through 21.x ("Omega" and its point releases). Capped at
+  # 21.9.0 now that a newer tier exists below, mirroring the exact
+  # minversion/maxversion pattern jurialmunkey's own repo uses at each of
+  # its Kodi-version transitions (leia->matrix->nexusrepo->omega).
+  - name: omega
+    minversion: "20.9.1"
+    maxversion: "21.9.0"
+    addons:
+      # a4kSubtitles -- multi-source subtitle downloader. Its addon source
+      # lives at the repo root (no separate per-addon folder), alongside
+      # dev/CI/test files we don't want in the shipped zip, hence exclude.
+      - id: service.subtitles.a4ksubtitles
+        type: github
+        github_repo: "a4k-openproject/a4kSubtitles"
+        branch: "master"
+        subdir: ""
+        exclude:
+          - ".github"
+          - ".githooks"
+          - ".vscode"
+          - "tests"
+          - "scripts"
+          - "packages"
+          - ".coveragerc"
+          - ".flake8"
+          - ".gitattributes"
+          - ".gitignore"
+          - "CHANGELOG.md"
+          - "requirements.txt"
+          - "screenshot-01.png"
+          - "screenshot-02.png"
+          - "screenshot-03.png"
 
-  # TMDb Helper and Arctic Fuse 3 are both published through jurialmunkey's
-  # own Kodi repository, which has a per-Kodi-version datadir layout. Its
-  # "omega" tier is declared open-ended (minversion 20.9.1, no maxversion
-  # cap) in repository.jurialmunkey's own addon.xml -- there is no separate
-  # "piers" tier there yet, so "omega" is still the correct/current tier
-  # for Kodi 22 Piers too. If jurialmunkey ever adds a distinct piers tier
-  # with a maxversion cap on omega, switch these two URLs to match (check
-  # jurialmunkey/repository.jurialmunkey's addon.xml for the current tier
-  # list: leia, matrix, nexusrepo, omega, ...).
-  - id: plugin.video.themoviedb.helper
-    type: kodi_repo
-    repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
-    repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+      # TMDb Helper and Arctic Fuse 3 are both published through
+      # jurialmunkey's own Kodi repository. Its "omega" tier is declared
+      # open-ended (minversion 20.9.1, no maxversion cap) in
+      # repository.jurialmunkey's own addon.xml -- there is no separate
+      # "piers" tier there yet, so both our omega and piers tiers below
+      # point at the SAME upstream source for these two, on purpose. If
+      # jurialmunkey ever adds a distinct piers tier, update the piers
+      # copies below to match (check jurialmunkey/repository.jurialmunkey's
+      # addon.xml for the current tier list).
+      - id: plugin.video.themoviedb.helper
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
-  - id: skin.arctic.fuse.3
-    type: kodi_repo
-    repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
-    repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+      - id: skin.arctic.fuse.3
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
-  # Trakt scrobbler. NOTE: this is already in Kodi's own built-in official
-  # add-on repository (the one every Kodi install ships with) -- mirroring
-  # it here is redundant for that reason, kept only for "everything in one
-  # place" convenience. Remove this entry if you'd rather just use Kodi's
-  # built-in repo for it.
-  #
-  # Unlike jurialmunkey's repo, the OFFICIAL Kodi mirror maintains genuinely
-  # separate per-major-version folders (leia/matrix/nexus/omega/piers/...),
-  # each with its own independently-updated addon set -- there is no
-  # open-ended "current" tier here, so this must be bumped to match
-  # whatever Kodi major version you're actually targeting. Set to "piers"
-  # for Kodi 22.
-  - id: script.trakt
-    type: kodi_repo
-    repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
-    repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
+      # Trakt scrobbler. NOTE: this is already in Kodi's own built-in
+      # official add-on repository (the one every Kodi install ships
+      # with) -- mirroring it here is redundant for that reason, kept only
+      # for "everything in one place" convenience. Remove if you'd rather
+      # just use Kodi's built-in repo for it.
+      #
+      # Unlike jurialmunkey's repo, the OFFICIAL Kodi mirror maintains
+      # genuinely separate per-major-version folders
+      # (leia/matrix/nexus/omega/piers/...), each independently updated --
+      # there is no open-ended "current" tier here, so this must match the
+      # Kodi major version this tier actually targets.
+      - id: script.trakt
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
+
+  # Kodi 21.9.1+ ("Piers" and beyond, open-ended until a newer tier is
+  # added here). This is the primary target -- current main setup is
+  # Kodi 22 Piers.
+  - name: piers
+    minversion: "21.9.1"
+    addons:
+      - id: service.subtitles.a4ksubtitles
+        type: github
+        github_repo: "a4k-openproject/a4kSubtitles"
+        branch: "master"
+        subdir: ""
+        exclude:
+          - ".github"
+          - ".githooks"
+          - ".vscode"
+          - "tests"
+          - "scripts"
+          - "packages"
+          - ".coveragerc"
+          - ".flake8"
+          - ".gitattributes"
+          - ".gitignore"
+          - "CHANGELOG.md"
+          - "requirements.txt"
+          - "screenshot-01.png"
+          - "screenshot-02.png"
+          - "screenshot-03.png"
+
+      - id: plugin.video.themoviedb.helper
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: skin.arctic.fuse.3
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: script.trakt
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"

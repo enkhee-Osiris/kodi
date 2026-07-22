@@ -46,11 +46,16 @@
       </assets>
     </extension>
   </addon>
-  <addon id="repository.osiris" name="Osiris Repository" version="1.0.0" provider-name="enkhee-Osiris">
+  <addon id="repository.osiris" name="Osiris Repository" version="1.1.0" provider-name="enkhee-Osiris">
     <extension point="xbmc.addon.repository" name="Osiris Repository">
-      <dir>
-        <info compressed="false">https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/addons.xml</info>
-        <checksum>https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/addons.xml.md5</checksum>
+      <dir minversion="20.9.1" maxversion="21.9.0">
+        <info compressed="false">https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/omega/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/omega/addons.xml.md5</checksum>
+        <datadir zip="true">https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips</datadir>
+      </dir>
+      <dir minversion="21.9.1">
+        <info compressed="false">https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/piers/addons.xml</info>
+        <checksum>https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/piers/addons.xml.md5</checksum>
         <datadir zip="true">https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips</datadir>
       </dir>
     </extension>
