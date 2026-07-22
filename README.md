@@ -12,10 +12,9 @@ one repository source added to get everything you use.
   `sources.yaml`/`tools/`/`repository.osiris/`, on a daily schedule (to
   catch upstream addon updates independent of local edits), and on demand.
 
-> **Assumption flag:** every raw URL in this repo assumes GitHub repo
-> `enkherdene/kodi` on branch `main`. If that's wrong, fix it — the exact
-> substring `enkherdene/kodi/main` appears in exactly two files:
-> `repository.osiris/addon.xml` and this README.
+> Every raw URL in this repo targets GitHub repo `enkhee-Osiris/kodi` on
+> branch `main`. The exact substring `enkhee-Osiris/kodi/main` appears in
+> exactly two files: `repository.osiris/addon.xml` and this README.
 
 ## How it's built
 
@@ -67,7 +66,7 @@ publishing everything else that resolved fine.
 2. Create the GitHub repo. The `gh` CLI is not currently installed in this
    environment, so use the web UI:
    - Go to https://github.com/new
-   - Owner: `enkherdene`, Repository name: `kodi`
+   - Owner: `enkhee-Osiris`, Repository name: `kodi`
    - **Public** (required — see below)
    - Do **NOT** check "Add a README", ".gitignore", or "license" (this repo
      already has its own files; auto-init would create a conflicting
@@ -75,11 +74,11 @@ publishing everything else that resolved fine.
    - Click **Create repository**
 
    (If you'd rather use the CLI: `brew install gh && gh auth login`, then
-   `gh repo create enkherdene/kodi --public --source=. --remote=origin`.)
+   `gh repo create enkhee-Osiris/kodi --public --source=. --remote=origin`.)
 
 3. Connect the remote and push:
    ```bash
-   git remote add origin https://github.com/enkherdene/kodi.git
+   git remote add origin git@github.com:enkhee-Osiris/kodi.git
    git add -A
    git commit -m "Initial commit: repository scaffold"
    git push -u origin main
@@ -104,7 +103,7 @@ Two approaches:
 
 - **Most reliable (any Kodi version/platform):** open this URL in a
   browser on any device and download the zip —
-  `https://raw.githubusercontent.com/enkherdene/kodi/main/zips/repository.osiris/repository.osiris-1.0.0.zip`
+  `https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.0.0.zip`
   — copy it somewhere Kodi can browse (its own Downloads folder, a USB
   stick, an SMB share). In Kodi: **Settings → System → Add-ons → enable
   "Unknown sources"** (if not already) **→ Add-ons → Install from zip
@@ -136,8 +135,8 @@ unzip -l zips/repository.osiris/repository.osiris-1.0.0.zip
 
 After pushing, confirm the hosted files actually resolve:
 ```bash
-curl -I https://raw.githubusercontent.com/enkherdene/kodi/main/zips/addons.xml
-curl -I https://raw.githubusercontent.com/enkherdene/kodi/main/zips/addons.xml.md5
-curl -I https://raw.githubusercontent.com/enkherdene/kodi/main/zips/repository.osiris/repository.osiris-1.0.0.zip
+curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/addons.xml
+curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/addons.xml.md5
+curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.0.0.zip
 ```
 All three should return `200 OK`.

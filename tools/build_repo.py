@@ -75,7 +75,7 @@ def make_session() -> requests.Session:
     session.mount("https://", adapter)
     session.mount("http://", adapter)
     session.headers.update(
-        {"User-Agent": "osiris-repo-builder/1.0 (+https://github.com/enkherdene/kodi)"}
+        {"User-Agent": "osiris-repo-builder/1.0 (+https://github.com/enkhee-Osiris/kodi)"}
     )
     return session
 
