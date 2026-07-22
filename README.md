@@ -41,6 +41,10 @@ version it ends up installed on.
   resolved, so it can never drift from what's actually being served.
 - `zips/tiers/<tier-name>/addons.xml.md5` — MD5 hex digest of that tier's
   `addons.xml` bytes.
+- `index.html` at the repo root — a minimal GitHub-Pages-served page
+  linking to the current `repository.osiris` zip, purely so Kodi's file
+  manager can browse and select it for the one-time bootstrap install (see
+  below). Not used for anything else.
 
 `repository.osiris` itself is untiered (one build serves every Kodi
 version) and always rebuilt from `repository.osiris/` regardless of
@@ -113,6 +117,13 @@ publishing everything else that resolved fine.
    commit from `github-actions[bot]` adding `zips/`. If it doesn't fire,
    trigger it manually: Actions → Build repository → Run workflow.
 
+5. Enable GitHub Pages (one-time, makes the bootstrap install below
+   possible): repo → **Settings → Pages** → under "Build and deployment",
+   Source: **Deploy from a branch** → Branch: **main**, folder **/ (root)**
+   → **Save**. Not required by the `gh` CLI (not installed here), just the
+   web UI. After a minute or two, `https://enkhee-osiris.github.io/kodi/`
+   should be live.
+
 ## Repo visibility
 
 This repo **must stay public**. `raw.githubusercontent.com` can only serve
@@ -123,24 +134,29 @@ one — a private repo would silently break every install.
 
 `raw.githubusercontent.com` does **not** support directory listing, so Kodi
 can't browse it as a folder-based file source the way it browses SMB/FTP.
-Two approaches:
+This is why GitHub Pages is also enabled (see first-time setup above):
+`tools/build_repo.py` regenerates a minimal `index.html` at the repo root
+(one `<a href>` link to the current `repository.osiris` zip) every run —
+Kodi's HTTP file-manager browsing parses that anchor tag as a directory
+listing, the same trick other Kodi repo maintainers rely on for exactly
+this reason. This is *only* used for the one-time bootstrap below; ongoing
+addon updates always go through `raw.githubusercontent.com` via
+`repository.osiris/addon.xml`, unaffected.
 
-- **Most reliable (any Kodi version/platform):** open this URL in a
-  browser on any device and download the zip —
+- **Primary method:** **Settings → Media → File manager → Add source**,
+  add `https://enkhee-osiris.github.io/kodi/` as the path (name it e.g.
+  "Osiris"). Then **Add-ons → Install from zip file → Osiris →** the
+  `repository.osiris-*.zip` should be listed and selectable directly.
+
+- **Fallback (any Kodi version/platform, if the above doesn't browse
+  correctly):** open
   `https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.1.0.zip`
-  (check `zips/repository.osiris/` for the current version if this repo has
-  moved on since this was written) — copy it somewhere Kodi can browse (its
-  own Downloads folder, a USB
-  stick, an SMB share). In Kodi: **Settings → System → Add-ons → enable
-  "Unknown sources"** (if not already) **→ Add-ons → Install from zip
-  file →** browse to that file **→** select it.
-
-- **Often works, worth trying first:** **Settings → Media → File
-  manager → Add source**, paste the *exact zip file URL itself* (not the
-  folder) as the path, name it e.g. "Osiris". Then **Install from zip
-  file** — since it points at a file rather than a folder, it may appear
-  as a directly-selectable item. Falls back to the method above if Kodi
-  tries to browse it as a folder.
+  (check `zips/repository.osiris/` for the current version if this repo
+  has moved on since this was written) in a browser on any device and
+  download it, copy it somewhere Kodi can browse (its own Downloads
+  folder, a USB stick, an SMB share). In Kodi: **Settings → System →
+  Add-ons → enable "Unknown sources"** (if not already) **→ Add-ons →
+  Install from zip file →** browse to that file **→** select it.
 
 Once `repository.osiris` is installed: **Add-ons → Install from
 repository → Osiris Repository →** install any mirrored addon. From then

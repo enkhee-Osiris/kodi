@@ -551,6 +551,25 @@ def regenerate_tier_addons_xml(tier_name: str, id_versions: dict[str, str]) -> N
     tmp_md5.replace(addons_md5_path)
 
 
+def regenerate_root_index_html() -> None:
+    """A minimal static index.html at the repo root -- served via GitHub
+    Pages purely so Kodi's HTTP file-manager browsing (which parses
+    <a href> tags in the returned page; the same trick other Kodi repo
+    maintainers rely on, since GitHub Pages/raw content have no real
+    directory autoindex) can discover and select the repository.osiris
+    zip for the one-time bootstrap install. Ongoing addon updates never
+    go through this -- those use raw.githubusercontent.com via
+    repository.osiris/addon.xml's <info>/<checksum>/<datadir>."""
+    _repo_version, repo_zip = current_zip_info(REPO_ADDON_ID)
+    if repo_zip is None:
+        return
+    link = f"zips/{REPO_ADDON_ID}/{repo_zip.name}"
+    html = f'<!DOCTYPE html>\n<a href="{link}">{repo_zip.name}</a>\n'
+    index_path = ROOT / "index.html"
+    if not index_path.exists() or index_path.read_text(encoding="utf-8") != html:
+        index_path.write_text(html, encoding="utf-8")
+
+
 def write_job_summary(results: list[ProcessResult]) -> None:
     failed = [r for r in results if r.status == "failed"]
     changed = [r for r in results if r.status in ("added", "updated", "removed")]
@@ -613,6 +632,8 @@ def main() -> int:
 
     for tier in tiers:
         regenerate_tier_addons_xml(tier.name, per_tier_versions[tier.name])
+
+    regenerate_root_index_html()
 
     write_job_summary(results)
     return 0
