@@ -29,6 +29,9 @@
 #       github_repo: "owner/repo"   # "owner/repo"
 #       branch: "main"              # match the upstream repo's actual default branch
 #       subdir: ""                  # "" if addon.xml is at repo root, else e.g. "some.addon.id"
+#       exclude: []                 # optional: top-level names to omit from the zip
+#                                    # (e.g. ["tests", ".github"]) when addon.xml lives
+#                                    # at repo root alongside non-addon dev/CI files
 #
 #   zip_url
 #     A direct static URL to an already Kodi-addon-shaped zip (e.g. a
@@ -40,10 +43,60 @@
 #       type: zip_url
 #       url: "https://example.invalid/releases/download/v1.2.3/some.addon.id-1.2.3.zip"
 #
-# THIS FILE CONTAINS NO REAL THIRD-PARTY ADDONS YET.
-# Add your own entries below by copying one of the three shapes above and
+# Add further entries below by copying one of the three shapes above and
 # filling in a real id + source. Removing an entry causes the next build to
 # prune that addon's zip automatically.
 # ---------------------------------------------------------------------------
 
-addons: []
+addons:
+  # a4kSubtitles -- multi-source subtitle downloader. Its addon source lives
+  # at the repo root (no separate per-addon folder), alongside dev/CI/test
+  # files we don't want in the shipped zip, hence the exclude list.
+  - id: service.subtitles.a4ksubtitles
+    type: github
+    github_repo: "a4k-openproject/a4kSubtitles"
+    branch: "master"
+    subdir: ""
+    exclude:
+      - ".github"
+      - ".githooks"
+      - ".vscode"
+      - "tests"
+      - "scripts"
+      - "packages"
+      - ".coveragerc"
+      - ".flake8"
+      - ".gitattributes"
+      - ".gitignore"
+      - "CHANGELOG.md"
+      - "requirements.txt"
+      - "screenshot-01.png"
+      - "screenshot-02.png"
+      - "screenshot-03.png"
+
+  # TMDb Helper and Arctic Fuse 3 are both published through jurialmunkey's
+  # own Kodi repository, which already has a standard per-Kodi-version
+  # datadir layout -- the "omega" tier below covers Kodi 20.9.1+ (Nexus'
+  # successors, i.e. current Kodi as of 2026). If you're on an older Kodi
+  # version, swap these two URLs for the matching tier (see
+  # jurialmunkey/repository.jurialmunkey's addon.xml for the other tiers:
+  # leia, matrix, nexusrepo).
+  - id: plugin.video.themoviedb.helper
+    type: kodi_repo
+    repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+    repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+  - id: skin.arctic.fuse.3
+    type: kodi_repo
+    repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+    repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+  # Trakt scrobbler. NOTE: this is already in Kodi's own built-in official
+  # add-on repository (the one every Kodi install ships with) -- mirroring
+  # it here is redundant for that reason, kept only for "everything in one
+  # place" convenience. Remove this entry if you'd rather just use Kodi's
+  # built-in repo for it.
+  - id: script.trakt
+    type: kodi_repo
+    repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
+    repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"

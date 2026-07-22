@@ -174,10 +174,19 @@ def read_addon_xml_from_dir(dir_path: Path, expected_id: Optional[str] = None):
     return addon_id, version, element
 
 
-def write_deterministic_zip(dest: Path, addon_id: str, root_dir: Path) -> None:
+def write_deterministic_zip(
+    dest: Path, addon_id: str, root_dir: Path, exclude: frozenset[str] = frozenset()
+) -> None:
+    """exclude holds top-level entry names (relative to root_dir) to omit --
+    e.g. a repo's tests/CI files when the addon source lives at repo root
+    alongside non-addon development files."""
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = dest.with_name(dest.name + ".tmp")
-    files = sorted(p for p in root_dir.rglob("*") if p.is_file())
+    files = sorted(
+        p
+        for p in root_dir.rglob("*")
+        if p.is_file() and p.relative_to(root_dir).parts[0] not in exclude
+    )
     with zipfile.ZipFile(tmp_path, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         for file_path in files:
             arcname = f"{addon_id}/{file_path.relative_to(root_dir).as_posix()}"
@@ -273,8 +282,9 @@ def resolve_github(source: AddonSource, session: requests.Session, tmp: Path) ->
     addon_dir = (top_level / subdir) if subdir else top_level
     _, version, _ = read_addon_xml_from_dir(addon_dir, expected_id=source.id)
 
+    exclude = frozenset(source.raw.get("exclude", []))
     zip_path = tmp / f"{source.id}.zip"
-    write_deterministic_zip(zip_path, source.id, addon_dir)
+    write_deterministic_zip(zip_path, source.id, addon_dir, exclude=exclude)
     return version, zip_path
 
 
