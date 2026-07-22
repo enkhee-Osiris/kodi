@@ -231,6 +231,34 @@ def write_deterministic_zip(
     tmp_path.replace(dest)
 
 
+def repackage_zip_with_correct_folder(zip_path: Path, correct_id: str, tmp: Path) -> Path:
+    """Fixes a known class of upstream packaging quirk where a supposedly
+    already-correctly-shaped zip's internal top-level folder name doesn't
+    match its own addon id (e.g. a typo in the release -- observed with
+    resource.font.robotocjksc, packaged as 'resource.font.robotcjksc').
+    Re-extracts and re-zips with the correct folder name, but only after
+    confirming the addon.xml's own id attribute genuinely matches what we
+    expect -- never blindly relabels a zip that turns out to be some other
+    addon entirely."""
+    with zipfile.ZipFile(zip_path) as zf:
+        names = zf.namelist()
+        top_dirs = {n.split("/", 1)[0] for n in names if "/" in n}
+        candidates = [n for n in names if n.count("/") == 1 and n.endswith("/addon.xml")]
+        if len(top_dirs) != 1 or not candidates:
+            raise BuildError(f"{zip_path.name}: cannot repackage, not shaped like a single-folder addon zip")
+        old_top = candidates[0].split("/", 1)[0]
+        element = ET.fromstring(zf.read(candidates[0]))
+        if element.get("id") != correct_id:
+            raise AddonIdMismatch(
+                f"expected addon id '{correct_id}' but zip's addon.xml contains '{element.get('id')}'"
+            )
+        extract_dir = tmp / "repackage_extracted"
+        zf.extractall(extract_dir)
+    fixed_zip = tmp / f"{correct_id}-fixed.zip"
+    write_deterministic_zip(fixed_zip, correct_id, extract_dir / old_top)
+    return fixed_zip
+
+
 def current_zip_info(addon_id: str) -> tuple[Optional[str], Optional[Path]]:
     """Version+path of the (single, non-tiered) zip on disk for addon_id,
     or (None, None) if absent or unopenable. Only used for repository.osiris,
@@ -294,7 +322,13 @@ def resolve_kodi_repo(source: AddonSource, session: requests.Session, tmp: Path)
     zip_url = f"{datadir_url.rstrip('/')}/{source.id}/{source.id}-{version}.zip"
     zip_path = tmp / f"{source.id}.zip"
     _download(session, zip_url, zip_path)
-    read_addon_xml_from_zip(zip_path, expected_id=source.id)
+    try:
+        read_addon_xml_from_zip(zip_path, expected_id=source.id)
+    except AddonIdMismatch:
+        raise
+    except BuildError:
+        zip_path = repackage_zip_with_correct_folder(zip_path, source.id, tmp)
+        read_addon_xml_from_zip(zip_path, expected_id=source.id)
     return version, zip_path
 
 
@@ -329,7 +363,13 @@ def resolve_zip_url(source: AddonSource, session: requests.Session, tmp: Path) -
         raise SourceConfigError(f"{source.id}: zip_url requires url")
     zip_path = tmp / f"{source.id}.zip"
     _download(session, url, zip_path)
-    _, version, _ = read_addon_xml_from_zip(zip_path, expected_id=source.id)
+    try:
+        _, version, _ = read_addon_xml_from_zip(zip_path, expected_id=source.id)
+    except AddonIdMismatch:
+        raise
+    except BuildError:
+        zip_path = repackage_zip_with_correct_folder(zip_path, source.id, tmp)
+        _, version, _ = read_addon_xml_from_zip(zip_path, expected_id=source.id)
     return version, zip_path
 
 

@@ -121,6 +121,40 @@ tiers:
         repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
         repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
+      # skin.arctic.fuse.3 dependencies not (adequately) covered by Kodi's
+      # built-in official repo -- script.skinvariables and
+      # script.module.jurialmunkey ARE in the official repo too, but at
+      # versions too old to satisfy what the skin/TMDb Helper actually
+      # require; script.texturemaker and resource.font.robotocjksc aren't
+      # in the official repo at all. All four come from the same
+      # jurialmunkey repo as TMDb Helper/Arctic Fuse 3 above.
+      #
+      # NOTE: script.module.pil (also required by TMDb Helper) is NOT
+      # mirrored -- it's a compiled/binary addon (native PIL/Pillow
+      # wrapper) with no pre-built release binaries published anywhere and
+      # no listing in Kodi's official repo in any tier. This build script
+      # only handles portable Python/resource addons; a missing native
+      # dependency like this is outside what it can fetch or build.
+      - id: script.skinvariables
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: script.texturemaker
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: resource.font.robotocjksc
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: script.module.jurialmunkey
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
       # Trakt scrobbler. NOTE: this is already in Kodi's own built-in
       # official add-on repository (the one every Kodi install ships
       # with) -- mirroring it here is redundant for that reason, kept only
@@ -171,6 +205,40 @@ tiers:
         repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
       - id: skin.arctic.fuse.3
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      # skin.arctic.fuse.3 dependencies not (adequately) covered by Kodi's
+      # built-in official repo -- script.skinvariables and
+      # script.module.jurialmunkey ARE in the official repo too, but at
+      # versions too old to satisfy what the skin/TMDb Helper actually
+      # require; script.texturemaker and resource.font.robotocjksc aren't
+      # in the official repo at all. All four come from the same
+      # jurialmunkey repo as TMDb Helper/Arctic Fuse 3 above.
+      #
+      # NOTE: script.module.pil (also required by TMDb Helper) is NOT
+      # mirrored -- it's a compiled/binary addon (native PIL/Pillow
+      # wrapper) with no pre-built release binaries published anywhere and
+      # no listing in Kodi's official repo in any tier. This build script
+      # only handles portable Python/resource addons; a missing native
+      # dependency like this is outside what it can fetch or build.
+      - id: script.skinvariables
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: script.texturemaker
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: resource.font.robotocjksc
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      - id: script.module.jurialmunkey
         type: kodi_repo
         repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
         repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
