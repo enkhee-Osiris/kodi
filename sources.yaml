@@ -1,0 +1,49 @@
+# sources.yaml
+# ---------------------------------------------------------------------------
+# Declares every THIRD-PARTY addon mirrored into zips/ by tools/build_repo.py.
+#
+# Do NOT add an entry for repository.osiris here -- it is always built
+# automatically from repository.osiris/addon.xml regardless of this file.
+#
+# Supported "type" values:
+#
+#   kodi_repo
+#     Upstream is itself a Kodi repository (has its own addons.xml + a
+#     datadir of per-addon zips, already correctly shaped). We read the
+#     upstream addons.xml, find <addon id=...>, read its version, and
+#     download <repo_datadir_url>/<id>/<id>-<version>.zip as-is.
+#
+#     - id: some.addon.id
+#       type: kodi_repo
+#       repo_addons_xml_url: "https://example.invalid/upstream-repo/addons.xml"
+#       repo_datadir_url: "https://example.invalid/upstream-repo/zips"
+#
+#   github
+#     Upstream addon source lives directly in a GitHub repo (addon.xml at
+#     the repo root or in a subfolder), with no pre-built zip. We fetch the
+#     repo via GitHub's public archive/codeload URL (no auth, no API rate
+#     limiting) and build our own correctly-shaped zip.
+#
+#     - id: some.addon.id
+#       type: github
+#       github_repo: "owner/repo"   # "owner/repo"
+#       branch: "main"              # match the upstream repo's actual default branch
+#       subdir: ""                  # "" if addon.xml is at repo root, else e.g. "some.addon.id"
+#
+#   zip_url
+#     A direct static URL to an already Kodi-addon-shaped zip (e.g. a
+#     GitHub Releases asset). Downloaded and re-hosted as-is, after opening
+#     it and confirming the addon.xml inside actually matches the declared
+#     id (never trusted blindly).
+#
+#     - id: some.addon.id
+#       type: zip_url
+#       url: "https://example.invalid/releases/download/v1.2.3/some.addon.id-1.2.3.zip"
+#
+# THIS FILE CONTAINS NO REAL THIRD-PARTY ADDONS YET.
+# Add your own entries below by copying one of the three shapes above and
+# filling in a real id + source. Removing an entry causes the next build to
+# prune that addon's zip automatically.
+# ---------------------------------------------------------------------------
+
+addons: []
