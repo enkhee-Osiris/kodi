@@ -155,6 +155,30 @@ tiers:
         repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
         repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
+      # Arctic Mirage screensaver -- styled to match Arctic Fuse 3, by
+      # drinfernoo (same skin-maintainer family as jurialmunkey). Its own
+      # requirement (script.skinshortcuts) is already covered by Kodi's
+      # built-in official repo.
+      - id: screensaver.arctic.mirage
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      # Up Next episode-continuation prompt. MoojMidge's actively-maintained
+      # fork is NOT used here: it hard-requires script.module.pil (a
+      # compiled/binary addon with no pre-built release binaries anywhere)
+      # in every 2.x release going back to v2.0.0, so it can't actually
+      # install. Sourced from the OFFICIAL mirror rather than im85288's raw
+      # GitHub repo (unmaintained since Aug 2024) because Team Kodi's own
+      # per-tier packaging declares the correct xbmc.python API version for
+      # each Kodi generation (checked: piers build declares 3.0.0; im85288's
+      # raw master branch still declares the stale 2.25.0) -- same
+      # redundant-but-convenient reasoning as script.trakt/weather.multi.
+      - id: service.upnext
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
+
       # Trakt scrobbler. NOTE: this is already in Kodi's own built-in
       # official add-on repository (the one every Kodi install ships
       # with) -- mirroring it here is redundant for that reason, kept only
@@ -167,6 +191,14 @@ tiers:
       # there is no open-ended "current" tier here, so this must match the
       # Kodi major version this tier actually targets.
       - id: script.trakt
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
+
+      # Weather (multi-provider, no API key needed). Also already in Kodi's
+      # built-in official repo -- mirrored anyway for "everything in one
+      # place" convenience, same reasoning as script.trakt above.
+      - id: weather.multi
         type: kodi_repo
         repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
         repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
@@ -253,7 +285,28 @@ tiers:
         repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
         repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
 
+      - id: screensaver.arctic.mirage
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/jurialmunkey/repository.jurialmunkey/master/omega/zips"
+
+      # Up Next episode-continuation prompt. Sourced from the OFFICIAL
+      # mirror (see omega tier's comment for why, not im85288's raw GitHub
+      # repo or MoojMidge's PIL-blocked fork).
+      - id: service.upnext
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
+
       - id: script.trakt
+        type: kodi_repo
+        repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
+        repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
+
+      # Weather (multi-provider, no API key needed). Also already in Kodi's
+      # built-in official repo -- mirrored anyway for "everything in one
+      # place" convenience, same reasoning as script.trakt above.
+      - id: weather.multi
         type: kodi_repo
         repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
         repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
