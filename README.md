@@ -4,9 +4,16 @@ A personal Kodi addon repository that **mirrors third-party addons from
 multiple external sources into one place**, so any Kodi install only needs
 one repository source added to get everything you use.
 
-- Hosted directly via `raw.githubusercontent.com` from the `main` branch —
-  no GitHub Pages, no `gh-pages` branch. The `zips/` folder is committed to
-  git directly and *is* the hosted content.
+- The actual addon content (zips, `addons.xml`, checksums) is hosted
+  directly via `raw.githubusercontent.com` from the `main` branch — no
+  `gh-pages` branch, no build step; the `zips/` folder is committed to git
+  directly and *is* the hosted content.
+- GitHub Pages is also enabled (same `main` branch, root folder), serving
+  **only** a minimal `index.html` bootstrap page at
+  `https://enkhee-osiris.github.io/kodi/` so Kodi's file manager can browse
+  to and select the `repository.osiris` zip for the one-time install (see
+  "Installing on a Kodi device" below) — everything else still goes
+  through raw.githubusercontent.com, unaffected.
 - Kept up to date automatically by GitHub Actions
   (`.github/workflows/build.yml`), which rebuilds the repo on every push to
   `sources.yaml`/`tools/`/`repository.osiris/`, on a daily schedule (to
@@ -15,6 +22,18 @@ one repository source added to get everything you use.
 > Every raw URL in this repo targets GitHub repo `enkhee-Osiris/kodi` on
 > branch `main`. The exact substring `enkhee-Osiris/kodi/main` appears in
 > exactly two files: `repository.osiris/addon.xml` and this README.
+
+## Disclaimer
+
+This is a personal, experimental project, not an official or authoritative
+distribution point for anything it mirrors. It does not host, develop, or
+claim any ownership, authorship, or rights over the add-ons listed in
+`sources.yaml` — everything under `zips/` is fetched as-is from the
+third-party upstream sources declared there, and all copyrights,
+trademarks, and licenses belong to their respective original authors and
+maintainers. Nothing here is reviewed or endorsed on behalf of those
+authors. Provided "as is," with no warranty of any kind, for personal use
+only.
 
 ## How it's built
 
@@ -150,7 +169,7 @@ addon updates always go through `raw.githubusercontent.com` via
 
 - **Fallback (any Kodi version/platform, if the above doesn't browse
   correctly):** open
-  `https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.1.0.zip`
+  `https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.1.1.zip`
   (check `zips/repository.osiris/` for the current version if this repo
   has moved on since this was written) in a browser on any device and
   download it, copy it somewhere Kodi can browse (its own Downloads
@@ -181,6 +200,6 @@ After pushing, confirm the hosted files actually resolve (repeat per tier):
 ```bash
 curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/piers/addons.xml
 curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/tiers/piers/addons.xml.md5
-curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.1.0.zip
+curl -I https://raw.githubusercontent.com/enkhee-Osiris/kodi/main/zips/repository.osiris/repository.osiris-1.1.1.zip
 ```
 All three should return `200 OK`.

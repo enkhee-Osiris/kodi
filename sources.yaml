@@ -171,6 +171,16 @@ tiers:
         repo_addons_xml_url: "https://mirrors.kodi.tv/addons/omega/addons.xml"
         repo_datadir_url: "https://mirrors.kodi.tv/addons/omega"
 
+      - id: plugin.video.pov
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master/packages/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master"
+
+      - id: script.module.magneto
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master/packages/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master"
+
   # Kodi 21.9.1+ ("Piers" and beyond, open-ended until a newer tier is
   # added here). This is the primary target -- current main setup is
   # Kodi 22 Piers.
@@ -247,3 +257,13 @@ tiers:
         type: kodi_repo
         repo_addons_xml_url: "https://mirrors.kodi.tv/addons/piers/addons.xml"
         repo_datadir_url: "https://mirrors.kodi.tv/addons/piers"
+
+      - id: plugin.video.pov
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master/packages/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master"
+
+      - id: script.module.magneto
+        type: kodi_repo
+        repo_addons_xml_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master/packages/addons.xml"
+        repo_datadir_url: "https://raw.githubusercontent.com/kodiyashimaru/repo/master"
