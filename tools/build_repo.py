@@ -599,12 +599,27 @@ def regenerate_root_index_html() -> None:
     directory autoindex) can discover and select the repository.osiris
     zip for the one-time bootstrap install. Ongoing addon updates never
     go through this -- those use raw.githubusercontent.com via
-    repository.osiris/addon.xml's <info>/<checksum>/<datadir>."""
+    repository.osiris/addon.xml's <info>/<checksum>/<datadir>.
+
+    The zip is COPIED to the repo root (alongside index.html) rather than
+    linked at its nested zips/repository.osiris/ path -- confirmed against
+    drinfernoo/repository.example (the reference example for this exact
+    GitHub-Pages-bootstrap pattern) that Kodi's HTTP directory browsing
+    only reliably parses a plain same-folder filename, not a relative path
+    into a subfolder; a nested href reproduced the "couldn't retrieve
+    directory information" failure in practice."""
     _repo_version, repo_zip = current_zip_info(REPO_ADDON_ID)
     if repo_zip is None:
         return
-    link = f"zips/{REPO_ADDON_ID}/{repo_zip.name}"
-    html = f'<!DOCTYPE html>\n<a href="{link}">{repo_zip.name}</a>\n'
+
+    for stale in ROOT.glob(f"{REPO_ADDON_ID}-*.zip"):
+        if stale.name != repo_zip.name:
+            stale.unlink()
+    root_copy = ROOT / repo_zip.name
+    if not root_copy.exists():
+        shutil.copyfile(repo_zip, root_copy)
+
+    html = f'<!DOCTYPE html>\n<a href="{repo_zip.name}">{repo_zip.name}</a>\n'
     index_path = ROOT / "index.html"
     if not index_path.exists() or index_path.read_text(encoding="utf-8") != html:
         index_path.write_text(html, encoding="utf-8")
