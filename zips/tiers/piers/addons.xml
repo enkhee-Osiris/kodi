@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <addons>
-  <addon id="plugin.video.pov" version="6.08.01" name="POV" provider-name="kodifitzwell">
+  <addon id="plugin.video.pov" version="6.08.02" name="POV" provider-name="kodifitzwell">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.requests" />
@@ -297,7 +297,7 @@
       <description lang="zh_CN">自动记录您正在观看的所有电视剧和电影到Trakt.tv！全面记录你看过的一切，成为全球电视和电影爱好者社区的一部分。在http://trakt.tv注册一个免费帐户，即可获得大量功能：[CR]；[CR]；-自动滚动您正在观看的内容[CR]；-iPhone、iPad、Android和Windows phone上的移动应用程序[CR]；-(实时)分享您正在观看的内容，并将其评分到Facebook和Twitter&amp;10；-个性化日历，让您永远不会错过任何电视节目[CR]；-关注您的朋友和您感兴趣的人&amp;使用观看列表，这样您就不会忘记要看什么。-跟踪您的媒体收藏并打动您的朋友[CR]；-围绕您选择的任何主题创建自定义列表[CR]；-轻松跟踪您的电视节目在所有季节和剧集中的进度-对照行业列表(如IMDB排名前250&amp;10；)跟踪您的进度-根据您的观看习惯发现新的剧集和电影[CR]；-用于论坛签名的小工具[CR]；[CR]；[CR]；[CR]；-自动滚动所有电视剧和电影。-将您的电视剧集和电影集同步到Trakt(在库更新后触发)[CR]；-自动清理您的Trakt集，以便它与Kodi&amp;10；匹配-保持在Kodi和Trakt&amp;10；之间同步的观看状态-在观看电影和集之后对它们进行评级[CR]；[CR]；特别感谢所有对此插件做出贡献的人！查看提交历史记录和更改日志，查看这些有才华的开发人员。</description>
     </extension>
   </addon>
-  <addon id="service.subtitles.a4ksubtitles" name="a4kSubtitles" version="3.23.1" provider-name="Unknown">
+  <addon id="service.subtitles.a4ksubtitles" name="a4kSubtitles" version="3.24.2" provider-name="Unknown">
     <requires>
       <import addon="script.module.requests" />
       <import addon="vfs.libarchive" optional="true" />
@@ -306,10 +306,9 @@
     <extension point="xbmc.service" library="main_service.py" />
     <extension point="xbmc.addon.metadata">
       <summary lang="en">a4kSubtitles - Multi-Source Subtitles Addon</summary>
-      <description>
-Multi-source subtitles addon optimized for Seren and a4kScrapers.
-Supports: OpenSubtitles, BSPlayer, Podnadpisi.NET, SubDL, Addic7ed
-        </description>
+      <summary lang="zh_cn">a4kSubtitles - 多源字幕插件</summary>
+      <description lang="en">Multi-source subtitles addon optimized for Seren and a4kScrapers. Supports: OpenSubtitles, BSPlayer, Podnadpisi.NET, SubDL, Addic7ed</description>
+      <description lang="zh_cn">针对 Seren 和 a4kScrapers 优化的多源字幕插件。支持：OpenSubtitles、BSPlayer、Podnadpisi.NET、SubDL、Addic7ed</description>
       <platform>all</platform>
       <reuselanguageinvoker>true</reuselanguageinvoker>
       <license>MIT License</license>
@@ -322,6 +321,19 @@ Supports: OpenSubtitles, BSPlayer, Podnadpisi.NET, SubDL, Addic7ed
         <screenshot>screenshot-03.png</screenshot>
       </assets>
       <news>
+[v3.24.2]:
+  * Replace the two IMDb pages that are no longer reachable with API lookups, fixing TV show detection for titles shared by multiple shows.
+
+[v3.24.1]:
+  * Fix IMDb metadata lookups being rejected with 403, which broke TV show year and episode detection.
+
+[v3.24.0]:
+  * Fix subtitle post-processing never running, so encoding conversion is applied again.
+  * SubDL: Switch to API v2 and fix downloads being saved still compressed.
+  * OpenSubtitles: Fix downloads of gzip-compressed subtitles.
+  * Fix missing flag for Brazilian Portuguese and Chinese results (by @peno64).
+  * Add Simplified Chinese translation (by @wabisabi926).
+
 [v3.23.1]:
   * Fix overwriting existing subtitles during auto-download.
 
