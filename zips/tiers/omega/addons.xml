@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <addons>
-  <addon id="plugin.video.pov" version="6.09.02" name="POV" provider-name="kodifitzwell">
+  <addon id="plugin.video.pov" version="6.09.03" name="POV" provider-name="kodifitzwell">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.requests" />
@@ -144,7 +144,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="script.module.magneto" version="6.09.02" name="Magneto Module" provider-name="Magneto">
+  <addon id="script.module.magneto" version="6.09.03" name="Magneto Module" provider-name="Magneto">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.requests" />
