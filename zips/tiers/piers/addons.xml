@@ -22,7 +22,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.themoviedb.helper" version="6.20.9" name="TMDb Helper" provider-name="jurialmunkey">
+  <addon id="plugin.video.themoviedb.helper" version="6.21.0" name="TMDb Helper" provider-name="jurialmunkey">
     <requires>
       <import addon="xbmc.python" version="3.0.1" />
       <import addon="script.module.requests" version="2.9.1" />
@@ -127,7 +127,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="script.module.jurialmunkey" name="jurialmunkey common" provider-name="jurialmunkey" version="0.2.35">
+  <addon id="script.module.jurialmunkey" name="jurialmunkey common" provider-name="jurialmunkey" version="0.2.36">
     <requires>
       <import addon="xbmc.python" version="3.0.1" />
       <import addon="script.module.requests" version="2.9.1" />
@@ -164,7 +164,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="script.skinvariables" version="2.2.13" name="Skin Variables" provider-name="jurialmunkey">
+  <addon id="script.skinvariables" version="2.2.14" name="Skin Variables" provider-name="jurialmunkey">
     <requires>
       <import addon="xbmc.python" version="3.0.0" />
       <import addon="script.module.jurialmunkey" version="0.2.28" />
