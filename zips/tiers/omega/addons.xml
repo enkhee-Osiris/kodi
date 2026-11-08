@@ -22,7 +22,7 @@
       </assets>
     </extension>
   </addon>
-  <addon id="plugin.video.themoviedb.helper" version="6.21.0" name="TMDb Helper" provider-name="jurialmunkey">
+  <addon id="plugin.video.themoviedb.helper" version="6.21.1" name="TMDb Helper" provider-name="jurialmunkey">
     <requires>
       <import addon="xbmc.python" version="3.0.1" />
       <import addon="script.module.requests" version="2.9.1" />
@@ -297,7 +297,7 @@
       <description lang="zh_CN">自动记录您正在观看的所有电视剧和电影到Trakt.tv！全面记录你看过的一切，成为全球电视和电影爱好者社区的一部分。在http://trakt.tv注册一个免费帐户，即可获得大量功能：[CR]；[CR]；-自动滚动您正在观看的内容[CR]；-iPhone、iPad、Android和Windows phone上的移动应用程序[CR]；-(实时)分享您正在观看的内容，并将其评分到Facebook和Twitter&amp;10；-个性化日历，让您永远不会错过任何电视节目[CR]；-关注您的朋友和您感兴趣的人&amp;使用观看列表，这样您就不会忘记要看什么。-跟踪您的媒体收藏并打动您的朋友[CR]；-围绕您选择的任何主题创建自定义列表[CR]；-轻松跟踪您的电视节目在所有季节和剧集中的进度-对照行业列表(如IMDB排名前250&amp;10；)跟踪您的进度-根据您的观看习惯发现新的剧集和电影[CR]；-用于论坛签名的小工具[CR]；[CR]；[CR]；[CR]；-自动滚动所有电视剧和电影。-将您的电视剧集和电影集同步到Trakt(在库更新后触发)[CR]；-自动清理您的Trakt集，以便它与Kodi&amp;10；匹配-保持在Kodi和Trakt&amp;10；之间同步的观看状态-在观看电影和集之后对它们进行评级[CR]；[CR]；特别感谢所有对此插件做出贡献的人！查看提交历史记录和更改日志，查看这些有才华的开发人员。</description>
     </extension>
   </addon>
-  <addon id="service.subtitles.a4ksubtitles" name="a4kSubtitles" version="3.24.2" provider-name="Unknown">
+  <addon id="service.subtitles.a4ksubtitles" name="a4kSubtitles" version="3.26.0" provider-name="Unknown">
     <requires>
       <import addon="script.module.requests" />
       <import addon="vfs.libarchive" optional="true" />
@@ -321,6 +321,27 @@
         <screenshot>screenshot-03.png</screenshot>
       </assets>
       <news>
+[v3.26.0]:
+  * Auto-load: try the quick OpenSubtitles results first, so subtitles load within about a second; the full search runs only when none of them loads.
+  * Add a quick search to the API for other add-ons (A4kSubtitlesApi.quick_search).
+
+[v3.25.0]:
+  * OpenSubtitles: Quick results with no account needed (new service, on by default).
+  * Remove duplicate OpenSubtitles results when both OpenSubtitles services find the same file.
+  * Keep UTF-8 subtitles as UTF-8 instead of guessing a code page.
+  * Detect .vtt subtitles in direct downloads.
+
+[v3.24.3]:
+  * Keep a few results in your other languages when the preferred language fills the results limit.
+  * Pick the right episode from season packs named like 2x04 (by @sjq42).
+  * Keep downloaded subtitle names short enough for Windows paths (by @sjq42).
+  * OpenSubtitles: Fix Portuguese (pt) searches (by @SolGarlic).
+  * Save subtitles with an unknown extension as .srt (by @peno64).
+  * Podnadpisi: Fix downloads saved as .srt.srt.
+  * Fail a download that returns an empty file or an archive instead of a subtitle.
+  * Expire cached search results after 4 hours, and do not cache a search in which a service failed.
+  * Log failed requests by host only, never the full URL.
+
 [v3.24.2]:
   * Replace the two IMDb pages that are no longer reachable with API lookups, fixing TV show detection for titles shared by multiple shows.
 
@@ -765,10 +786,10 @@ v1.2.0 (2026-10-20)
       </assets>
     </extension>
   </addon>
-  <addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="jurialmunkey" version="3.4.18">
+  <addon id="skin.arctic.fuse.3" name="Arctic Fuse 3" provider-name="jurialmunkey" version="3.4.19">
     <requires>
       <import addon="xbmc.gui" version="5.17.0" />
-      <import addon="script.skinvariables" version="2.2.12" />
+      <import addon="script.skinvariables" version="2.2.13" />
       <import addon="script.texturemaker" version="0.2.9" />
       <import addon="plugin.video.themoviedb.helper" version="6.19.2" />
       <import addon="resource.images.weathericons.white" version="0.0.1" />
